@@ -1,38 +1,49 @@
-.App {
-  text-align: center;
+import React, {FC} from 'react'
+import Header from "./components/Header";
+import {Box, Container, CssBaseline, Grid, Grow} from "@material-ui/core";
+import Sidebar from "./components/Sidebar";
+import {useSelector} from "react-redux";
+import {RootState} from "./store";
+import DeleteListModal from "./components/DeleteListModal";
+import EditListModal from "./components/EditListModal";
+import MainContent from "./components/MainContent";
+import EditTaskModal from "./components/EditTaskModal";
+import DeleteTaskModal from "./components/DeleteTaskModal";
+
+
+
+
+const App: FC = () => {
+    const listIdToDelete = useSelector((state: RootState) => state.list.listIdToDelete);
+    const listToEdit = useSelector((state: RootState) => state.list.listToEdit);
+    const taskToEdit = useSelector((state: RootState) => state.list.taskToEdit);
+    const taskToDelete = useSelector((state: RootState) => state.list.taskToDelete);
+
+
+    return (
+        <>
+            <CssBaseline/>
+            <Header/>
+            <Grow in>
+                <Box m={3}>
+                    <Container>
+                        <Grid container justify="space-between" alignItems="stretch" spacing={3}>
+                            <Grid item xs={12} sm={3}>
+                                <Sidebar/>
+                            </Grid>
+                            <Grid item xs={12} sm={9}>
+                                <MainContent/>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </Box>
+            </Grow>
+            {listIdToDelete && <DeleteListModal listId={listIdToDelete} />}
+            {listToEdit && <EditListModal list={listToEdit} />}
+            {taskToEdit && <EditTaskModal taskToEdit={taskToEdit} />}
+            {taskToDelete && <DeleteTaskModal taskToDelete={taskToDelete} />}
+        </>
+    )
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+export default App
