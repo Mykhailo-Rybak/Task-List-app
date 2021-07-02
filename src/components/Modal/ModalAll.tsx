@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {createStyles, makeStyles, Theme, Modal} from "@material-ui/core";
+import {Box, Card, createStyles, makeStyles, Modal, Theme, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,20 +17,27 @@ interface DeleteListModalProps {
     open: boolean;
     onClose: () => void;
     children: JSX.Element,
-    className?: string
+    className?: string,
+    title: string
 }
 
-const ModalAll: FC<DeleteListModalProps> = ({open, onClose, children}) => {
+const ModalAll: FC<DeleteListModalProps> = ({open, onClose, title, children}) => {
     const classes = useStyles();
-
 
     return (
         <Modal
             open={open}
             onClose={onClose}
-            className={classes.modal}
-        >
-                {children}
+            className={classes.modal}>
+            <Card>
+                <Box p={1} bgcolor="primary.main" color="primary.contrastText">
+                    <Typography variant="h6">{title}</Typography>
+                </Box>
+                <Box m={2}>
+                    {children}
+                </Box>
+            </Card>
+
         </Modal>
     )
 }
